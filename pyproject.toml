@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "fastapi-di-depends-issue"
+version = "0.1.0"
+description = ""
+authors = ["Max Froehlich <max.froehlich@serviceware.de>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.66.0"
+dependency-injector = "^4.34.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^21.6b0"
+flake8 = "^3.9.2"
+requests = "^2.25.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
