@@ -3,37 +3,26 @@
 
 from fastapi.applications import FastAPI
 from fastapi.param_functions import Depends
-from fastapi.security.http import HTTPAuthorizationCredentials
-from dependency_injector.wiring import Provide, Provider
+from fastapi.security.http import HTTPBasic, HTTPBasicCredentials
+from dependency_injector.wiring import Provide
 from fastapi_di_depends_issue.container import Container
-from fastapi_di_depends_issue.third_party import auth_factory
 
 app = FastAPI()
 
 
-def fixed_extractor(oauth_header:HTTPAuthorizationCredentials):
-    return {
-        "username": "foo",
-        "scopes": ["read", "write"]
-    }
-
+fixed_bearer = HTTPBasic()
 @app.get("/fixed")
-def fixed(user = Depends(auth_factory(scope="read", extractor = fixed_extractor ))):
+def fixed(user: HTTPBasicCredentials = Depends(fixed_bearer)):
 
-    return {
-        "user": user["username"]
-    }
+    return {"username" : user.username}
 
 
 
-user_detail_extractor = Provide[Container.user_detail_extractor]
+di_bearer = Provide[Container.bearer]
 
 @app.get("/with_di")
-def with_di(user = Depends(auth_factory(scope="read", extractor = user_detail_extractor ))):
+def with_di(user: HTTPBasicCredentials = Depends(di_bearer)):
 
-    return {
-        "user": user["username"]
-    }
-
+    return {"username" : user.username if user else None}
 
 

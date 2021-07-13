@@ -1,14 +1,8 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector import providers
-from fastapi.security.http import HTTPAuthorizationCredentials
+from fastapi.security.http import HTTPAuthorizationCredentials, HTTPBasic
 
-
-def some_di_extractor(some_config: str, oauth_header:HTTPAuthorizationCredentials):
-    return {
-            "username": "bar",
-            "scopes": ["read", "write"]
-        }
 
 class Container(DeclarativeContainer):
-
-    user_detail_extractor = providers.Callable(some_di_extractor, some_config="bla") # real world some more parameter
+    config = providers.Configuration()
+    bearer  = providers.Singleton(HTTPBasic, auto_error=config.secured.as_(bool))
