@@ -9,17 +9,15 @@ from fastapi_di_depends_issue.container import Container
 
 app = FastAPI()
 
-
+#### working
 fixed_bearer = HTTPBasic()
 @app.get("/fixed")
 def fixed(user: HTTPBasicCredentials = Depends(fixed_bearer)):
 
     return {"username" : user.username}
 
-
-
+#### not working
 di_bearer = Provide[Container.bearer]
-
 
 @app.get("/with_di")
 @inject
