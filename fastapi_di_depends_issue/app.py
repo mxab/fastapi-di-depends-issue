@@ -28,7 +28,7 @@ def with_di(user: HTTPBasicCredentials = Depends(di_bearer)):
 
 @inject
 async def workarround(
-    request: Request, di_bearer=Depends(Provide[Container.bearer])
+    request: Request, di_bearer: HTTPBasic = Depends(Provide[Container.bearer])
 ) -> HTTPBasicCredentials:
 
     return await di_bearer(request)
