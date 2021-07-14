@@ -41,3 +41,10 @@ def test_di_workarround(client: TestClient):
     )
     resp.raise_for_status()
     assert resp.json()["username"] == "bar"
+
+
+def test_openapi(client: TestClient):
+
+    resp = client.get("/openapi.json")
+    resp.raise_for_status()
+    assert resp.status_code == 200
